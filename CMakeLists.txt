@@ -6,7 +6,7 @@ project(
     piper_phonemize
     VERSION 1.2.0
     DESCRIPTION "Phonemization library for Piper text to speech system"
-    HOMEPAGE_URL "https://github.com/rhasspy/piper-phonemize"
+    HOMEPAGE_URL "https://github.com/vityusha/piper-phonemize"
     LANGUAGES CXX
 )
 
@@ -39,12 +39,18 @@ set_target_properties(piper_phonemize PROPERTIES
 # Look for onnxruntime files in <root>/lib
 if(NOT DEFINED ONNXRUNTIME_DIR)
     if(NOT DEFINED ONNXRUNTIME_VERSION)
-        set(ONNXRUNTIME_VERSION "1.14.1")
+        # The last ONNX runtime with win32 x86 support
+        set(ONNXRUNTIME_VERSION "1.22.1")
     endif()
 
     if(WIN32)
-        # Windows x86-64
-        set(ONNXRUNTIME_PREFIX "onnxruntime-win-x64-${ONNXRUNTIME_VERSION}")
+        if(CMAKE_GENERATOR_PLATFORM STREQUAL x64)
+            # Windows x86-64
+            set(ONNXRUNTIME_PREFIX "onnxruntime-win-x64-${ONNXRUNTIME_VERSION}")
+        elseif(CMAKE_GENERATOR_PLATFORM STREQUAL Win32)
+            # Windows x86
+            set(ONNXRUNTIME_PREFIX "onnxruntime-win-x86-${ONNXRUNTIME_VERSION}")
+        endif()
         set(ONNXRUNTIME_EXT "zip")
     elseif (APPLE)
         if(CMAKE_SYSTEM_PROCESSOR STREQUAL x86_64)
