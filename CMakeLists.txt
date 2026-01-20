@@ -40,7 +40,7 @@ set_target_properties(piper_phonemize PROPERTIES
 if(NOT DEFINED ONNXRUNTIME_DIR)
     if(NOT DEFINED ONNXRUNTIME_VERSION)
         # The last ONNX runtime with win32 x86 support
-        set(ONNXRUNTIME_VERSION "1.22.1")
+        set(ONNXRUNTIME_VERSION "1.21.0")
     endif()
 
     if(WIN32)
